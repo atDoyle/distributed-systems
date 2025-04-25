@@ -8,6 +8,7 @@ import (
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
+	"google.golang.org/protobuf/types/known/emptypb"
 
 	pb "github.com/atDoyle/distributed-systems/key-value-store"
 )
@@ -25,10 +26,10 @@ func newServer() *server {
 }
 
 // Set implements the Set RPC method
-func (s *server) Set(ctx context.Context, req *pb.SetRequest) (*pb.Empty, error) {
+func (s *server) Set(ctx context.Context, req *pb.SetRequest) (*emptypb.Empty, error) {
 	s.store[req.Key] = req.Value
 	fmt.Printf("Set: key=%s, value=%v\n", req.Key, req.Value)
-	return &pb.Empty{}, nil
+	return &emptypb.Empty{}, nil
 }
 
 // Get implements the Get RPC method
