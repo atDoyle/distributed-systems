@@ -1,33 +1,25 @@
 syntax = "proto3";
 
-package kvstore;
+package key_value_store;
+
+option go_package = "github.com/atDoyle/distributed-systems/key-value-store";
+
+import "google/protobuf/empty.proto";
 
 message SetRequest {
-    string key = 1;
-    string value = 2;
+  string key = 1;
+  bytes value = 2;
 }
 
 message GetRequest {
-    string key = 1;
-}
-
-message SetResponse {
-    bool success = 1;
+  string key = 1;
 }
 
 message GetResponse {
-    optional string value = 1; // 'optional' in proto3 means the field might not be set
-    bool found = 2;
+  bytes value = 1;
 }
 
-// Optional: A wrapper message to encapsulate requests and responses
-message Command {
-    oneof request {
-        SetRequest set = 1;
-        GetRequest get = 2;
-    }
-    oneof response {
-        SetResponse set_response = 3;
-        GetResponse get_response = 4;
-    }
+service KeyValueStore {
+  rpc Set(SetRequest) returns (google.protobuf.Empty);
+  rpc Get(GetRequest) returns (GetResponse);
 }
